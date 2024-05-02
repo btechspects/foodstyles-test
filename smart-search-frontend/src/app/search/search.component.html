@@ -1,0 +1,40 @@
+<div class="search-container">
+  <mat-card class="search-card">
+    <mat-card-title>Entity Search</mat-card-title>
+    <mat-card-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Search for entities</mat-label>
+        <input matInput placeholder="Enter search term..." [(ngModel)]="searchTerm" (keyup.enter)="onSearch()">
+        <button mat-icon-button matSuffix (click)="onSearch()" aria-label="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="onSearch()">Search</button>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Results Section -->
+  <mat-accordion *ngIf="results.length > 0" multi="true" class="results-accordion">
+    <mat-expansion-panel *ngFor="let result of results; let i = index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Search Result {{ i + 1 }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <!-- Display relevant information for each entity type -->
+      <ng-container *ngFor="let key of getObjectKeys(result)">
+        <div *ngIf="result[key]">
+          <mat-card class="result-card">
+            <mat-card-header>
+              <mat-card-title>{{ formatKey(key) | titlecase }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ result[key].name }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
